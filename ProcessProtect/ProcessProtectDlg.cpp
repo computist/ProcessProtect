@@ -7,6 +7,8 @@
 #include "ProcessProtectDlg.h"
 #include "afxdialogex.h"
 
+#include "ScmControl.h"
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -32,7 +34,7 @@ BEGIN_MESSAGE_MAP(CProcessProtectDlg, CDialogEx)
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
 	ON_BN_CLICKED(IDOK, &CProcessProtectDlg::OnBnClickedOk)
-	ON_EN_CHANGE(IDC_EDIT1, &CProcessProtectDlg::OnEnChangeEdit1)
+	ON_BN_CLICKED(IDC_PROTECT, &CProcessProtectDlg::OnBnClickedProtect)
 END_MESSAGE_MAP()
 
 
@@ -97,12 +99,13 @@ void CProcessProtectDlg::OnBnClickedOk()
 }
 
 
-void CProcessProtectDlg::OnEnChangeEdit1()
+void CProcessProtectDlg::OnBnClickedProtect()
 {
-	// TODO:  ?????? RICHEDIT ??,???
-	// ?????,???? CDialogEx::OnInitDialog()
-	// ????? CRichEditCtrl().SetEventMask(),
-	// ??? ENM_CHANGE ??“?”???????
-
-	// TODO:  ??????????????
+	CWnd* pWnd = GetDlgItem(IDC_PID);
+	CString sPid;
+	pWnd -> GetWindowText(sPid);
+	if (!sPid.IsEmpty()){
+		MessageBox(sPid);
+	}
 }
+

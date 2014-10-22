@@ -1,7 +1,6 @@
-
+﻿
 // ProcessProtectDlg.h : header file
 //
-
 #pragma once
 
 
@@ -30,5 +29,5 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	afx_msg void OnBnClickedOk();
-	afx_msg void OnEnChangeEdit1();
+	afx_msg void OnBnClickedProtect();
 };
