@@ -1,20 +1,14 @@
-﻿生成启动时间为 10/23/2014 2:32:55 AM。
+﻿生成启动时间为 10/23/2014 2:41:14 AM。
      1>项目“c:\Users\1\documents\visual studio 2010\Projects\ProcessProtect\ProcessProtect\ProcessProtect.vcxproj”在节点 2 上(build 个目标)。
-     1>PrepareForBuild:
-         正在创建目录“c:\users\1\documents\visual studio 2010\Projects\ProcessProtect\Debug\”。
-       InitializeBuildStatus:
+     1>InitializeBuildStatus:
          正在创建“Debug\ProcessProtect.unsuccessfulbuild”，因为已指定“AlwaysCreate”。
        ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D _UNICODE /D UNICODE /D _AFXDLL /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yc"StdAfx.h" /Fp"Debug\ProcessProtect.pch" /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt stdafx.cpp
-         stdafx.cpp
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D _UNICODE /D UNICODE /D _AFXDLL /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"StdAfx.h" /Fp"Debug\ProcessProtect.pch" /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt ProcessProtect.cpp ProcessProtectDlg.cpp
-         ProcessProtectDlg.cpp
-         ProcessProtect.cpp
-         正在生成代码...
+         所有输出均为最新。
+         所有输出均为最新。
        ResourceCompile:
          C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /D _DEBUG /D _UNICODE /D UNICODE /D _AFXDLL /l"0x0409" /IDebug\ /nologo /fo"Debug\ProcessProtect.res" ProcessProtect.rc 
        ManifestResourceCompile:
-         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /nologo /fo"Debug\ProcessProtect.exe.embed.manifest.res" Debug\ProcessProtect_manifest.rc 
+         所有输出均为最新。
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"c:\users\1\documents\visual studio 2010\Projects\ProcessProtect\Debug\ProcessProtect.exe" /INCREMENTAL /NOLOGO /MANIFEST /ManifestFile:"Debug\ProcessProtect.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"c:\users\1\documents\visual studio 2010\Projects\ProcessProtect\Debug\ProcessProtect.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /ENTRY:"wWinMainCRTStartup" /DYNAMICBASE /NXCOMPAT /IMPLIB:"c:\users\1\documents\visual studio 2010\Projects\ProcessProtect\Debug\ProcessProtect.lib" /MACHINE:X86 Debug\ProcessProtect.res
          Debug\ProcessProtect.exe.embed.manifest.res
@@ -23,13 +17,9 @@
          Debug\stdafx.obj
        Manifest:
          C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /out:"Debug\ProcessProtect.exe.embed.manifest" /manifest Debug\ProcessProtect.exe.intermediate.manifest "C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\Include\Manifest\dpiaware.manifest"
-         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /nologo /fo"Debug\ProcessProtect.exe.embed.manifest.res" Debug\ProcessProtect_manifest.rc 
+         所有输出均为最新。
        LinkEmbedManifest:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"c:\users\1\documents\visual studio 2010\Projects\ProcessProtect\Debug\ProcessProtect.exe" /INCREMENTAL /NOLOGO /MANIFEST /ManifestFile:"Debug\ProcessProtect.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"c:\users\1\documents\visual studio 2010\Projects\ProcessProtect\Debug\ProcessProtect.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /ENTRY:"wWinMainCRTStartup" /DYNAMICBASE /NXCOMPAT /IMPLIB:"c:\users\1\documents\visual studio 2010\Projects\ProcessProtect\Debug\ProcessProtect.lib" /MACHINE:X86 Debug\ProcessProtect.res
-         Debug\ProcessProtect.exe.embed.manifest.res
-         Debug\ProcessProtect.obj
-         Debug\ProcessProtectDlg.obj
-         Debug\stdafx.obj
+         所有输出均为最新。
          ProcessProtect.vcxproj -> c:\users\1\documents\visual studio 2010\Projects\ProcessProtect\Debug\ProcessProtect.exe
        FinalizeBuildStatus:
          正在删除文件“Debug\ProcessProtect.unsuccessfulbuild”。
@@ -38,4 +28,4 @@
 
 生成成功。
 
-已用时间 00:00:07.39
+已用时间 00:00:00.20
