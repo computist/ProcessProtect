@@ -33,4 +33,5 @@ public:
 	afx_msg void InstallDriver();
 	afx_msg void OnBnClickedHide();
 	afx_msg void OnClose();
+	long PROCPID;
 };

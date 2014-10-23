@@ -57,6 +57,7 @@ void UninstallDriver(){
 
 CProcessProtectDlg::CProcessProtectDlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx(CProcessProtectDlg::IDD, pParent)
+	, PROCPID(0)
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
@@ -64,6 +65,7 @@ CProcessProtectDlg::CProcessProtectDlg(CWnd* pParent /*=NULL*/)
 void CProcessProtectDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
+	DDX_Text(pDX, IDC_PID, PROCPID);
 }
 
 BEGIN_MESSAGE_MAP(CProcessProtectDlg, CDialogEx)
@@ -131,21 +133,17 @@ HCURSOR CProcessProtectDlg::OnQueryDragIcon()
 
 void CProcessProtectDlg::OnBnClickedProtect()
 {
-	CWnd* pWnd = GetDlgItem(IDC_PID);
-	CString sPid;
-	pWnd -> GetWindowText(sPid);
-	if (!sPid.IsEmpty()){
-		dc.IoControl(0x800,0,0,0,0,0);
+	UpdateData(TRUE);
+	if (PROCPID > 0 && PROCPID != 4){	//If pid is valid and is not WinNT kernel process
+		dc.IoControl(0x800,&PROCPID,sizeof(PROCPID),0,0,0);
 	}
 }
 
 void CProcessProtectDlg::OnBnClickedHide()
 {
-	CWnd* pWnd = GetDlgItem(IDC_PID);
-	CString sPid;
-	pWnd -> GetWindowText(sPid);
-	if (!sPid.IsEmpty()){
-		dc.IoControl(0x801,0,0,0,0,0);
+	UpdateData(TRUE);
+	if (PROCPID > 0 && PROCPID != 4){	//If pid is valid and is not WinNT kernel process
+		dc.IoControl(0x801,&PROCPID,sizeof(PROCPID),0,0,0);
 	}
 }
 

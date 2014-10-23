@@ -1,4 +1,4 @@
-#include <ntddk.h>
+﻿#include <ntddk.h>
 #include <windef.h>
 #include <stdlib.h>
 
@@ -51,6 +51,9 @@ NTSTATUS DispatchIoctl(PDEVICE_OBJECT pDevObj, PIRP pIrp)
 	PVOID pIoBuffer;
 	ULONG uInSize;
 	ULONG uOutSize;
+	int	PROCPID = 0;
+
+
 	DbgPrint("ProcModule64 DispatchIoctl\n");
 	//Get IRP data
 	pIrpStack = IoGetCurrentIrpStackLocation(pIrp);
@@ -66,7 +69,10 @@ NTSTATUS DispatchIoctl(PDEVICE_OBJECT pDevObj, PIRP pIrp)
 		// Define all dispatch interfaces
 		case IOCTL_IO_PROTECT:
 		{	
-			DbgPrint("Protect\n");
+			// Get process pid from ring0
+			PROCPID = *((DWORD *)pIoBuffer);
+			DbgPrint("The Input PID is :%d\r\n",find_PID);			
+
 			status = STATUS_SUCCESS;
 			break;
 		}
