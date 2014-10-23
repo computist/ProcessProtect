@@ -14,7 +14,6 @@
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
-
 cDrvCtrl dc;
 
 // Initialize driver
@@ -44,22 +43,12 @@ bool InstallDriver(){
 }
 
 
-bool UninstallDriver(){
-		CloseHandle(dc.m_hDriver);
+void UninstallDriver(){
 		CloseHandle(dc.m_hDriver);
 		dc.Stop();
-		return dc.Remove();
+		dc.Remove();		
 }
 
-void CProcessProtectDlg::OnBnClickedProtect()
-{
-	CWnd* pWnd = GetDlgItem(IDC_PID);
-	CString sPid;
-	pWnd -> GetWindowText(sPid);
-	if (!sPid.IsEmpty()){
-		dc.IoControl(0x800,0,0,0,0,0);
-	}
-}
 
 // CProcessProtectDlg dialog
 
@@ -82,6 +71,7 @@ BEGIN_MESSAGE_MAP(CProcessProtectDlg, CDialogEx)
 	ON_WM_QUERYDRAGICON()
 	ON_BN_CLICKED(IDC_PROTECT, &CProcessProtectDlg::OnBnClickedProtect)
 	ON_BN_CLICKED(IDC_HIDE, &CProcessProtectDlg::OnBnClickedHide)
+	ON_WM_CLOSE()
 END_MESSAGE_MAP()
 
 
@@ -98,6 +88,7 @@ BOOL CProcessProtectDlg::OnInitDialog()
 
 	// TODO: Add extra initialization here
 	::InstallDriver();
+
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
 
@@ -138,7 +129,15 @@ HCURSOR CProcessProtectDlg::OnQueryDragIcon()
 }
 
 
-
+void CProcessProtectDlg::OnBnClickedProtect()
+{
+	CWnd* pWnd = GetDlgItem(IDC_PID);
+	CString sPid;
+	pWnd -> GetWindowText(sPid);
+	if (!sPid.IsEmpty()){
+		dc.IoControl(0x800,0,0,0,0,0);
+	}
+}
 
 void CProcessProtectDlg::OnBnClickedHide()
 {
@@ -146,7 +145,12 @@ void CProcessProtectDlg::OnBnClickedHide()
 	CString sPid;
 	pWnd -> GetWindowText(sPid);
 	if (!sPid.IsEmpty()){
-		
 		dc.IoControl(0x801,0,0,0,0,0);
 	}
+}
+
+void CProcessProtectDlg::OnClose()
+{
+	::UninstallDriver();
+	CDialogEx::OnClose();
 }

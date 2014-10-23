@@ -23,9 +23,15 @@ public:
 	~cDrvCtrl()
 	{
 		// clear
-		CloseServiceHandle(m_hService);
-		CloseServiceHandle(m_hSCManager);
-		CloseHandle(m_hDriver);
+		if (m_hService != NULL) {
+			CloseServiceHandle(m_hService);
+		}
+		if (m_hSCManager != NULL) {
+			CloseServiceHandle(m_hSCManager);
+		}
+		if (m_hDriver != NULL) {
+			CloseHandle(m_hDriver);
+		}		
 	}
 public:
 	DWORD m_dwLastError;

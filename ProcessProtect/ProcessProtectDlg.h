@@ -21,13 +21,16 @@ public:
 protected:
 	HICON m_hIcon;
 
+
 	// Generated message map functions
 	virtual BOOL OnInitDialog();
 	afx_msg void OnPaint();
 	afx_msg HCURSOR OnQueryDragIcon();
 	DECLARE_MESSAGE_MAP()
-public:
+public:	
+
 	afx_msg void OnBnClickedProtect();
 	afx_msg void InstallDriver();
 	afx_msg void OnBnClickedHide();
+	afx_msg void OnClose();
 };
