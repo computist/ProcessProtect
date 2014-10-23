@@ -86,14 +86,15 @@ NTSTATUS DispatchIoctl(PDEVICE_OBJECT pDevObj, PIRP pIrp)
 		{	
 			// Get process pid from ring0
 			PROCPID = *((DWORD *)pIoBuffer);
-			DbgPrint("The Input PID is :%d\r\n",PROCPID);			
+						
 			ProcEP=GetProcessObjectByPID(PROCPID);
 			if(ProcEP)
 			{
 				op_dat=ProtectProcess(ProcEP,1,0);
 				ObDereferenceObject(ProcEP);
-			}
-			status = STATUS_SUCCESS;
+				status = STATUS_SUCCESS;
+				DbgPrint("The process with PID %d is protected\n",PROCPID);
+			}			
 			break;
 		}
 		case IOCTL_IO_HIDE:
@@ -104,10 +105,11 @@ NTSTATUS DispatchIoctl(PDEVICE_OBJECT pDevObj, PIRP pIrp)
 			ProcEP=GetProcessObjectByPID(PROCPID);
 			if(ProcEP)
 			{
-				op_dat=HideProcess(ProcEP);
+				HideProcess(ProcEP);
 				ObDereferenceObject(ProcEP);
-			}
-			status = STATUS_SUCCESS;
+				status = STATUS_SUCCESS;
+				DbgPrint("The process with PID %d is hidden\n",PROCPID);
+			}			
 			break;
 		}
 	}
